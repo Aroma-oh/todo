@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components';
-import { tagData } from '../tagData';
+import { tagData } from '../data/tagData';
 
 export const TagsContainer = styled.div`
     //border: 1px solid;
@@ -9,7 +9,7 @@ export const TagsContainer = styled.div`
     flex-direction: column;
     align-items: flex-start;
     padding: 34px 12px;
-    gap: 24px;
+    gap: 12px;
 
     position: absolute;
     width: 100%;
@@ -19,17 +19,25 @@ export const TagsContainer = styled.div`
 `
 
 export const Tag = styled.button`
+    border: 1px solid;
+    
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0px 0px 0px 24px;
+    text-align: center;
+    padding: 12px 24px;
     gap: 16px;
-    width: 100%;
-    height: 34px;
+    //width: 100%;
+    height: 48px;
 
     cursor: pointer;
     border: none;
+    border-radius: 24px;
+    //background-color: gray;
     background-color: ${props => props.theme.colors.containerBgColor};
+    &.checked {
+        background-color: gray;
+    }
 
     .tagColor {
         width: 30px;
@@ -43,12 +51,17 @@ export const Tag = styled.button`
     }
 `
 
-export const Tags = () => {
+export const Tags = ({ selectedTag, tagHandler }) => {
+    console.log(`tagHandler: ${tagHandler}`)
     return (
         <TagsContainer>
             {tagData.map((el) => {
                 return (
-                    <Tag color={el.color}>
+                    <Tag
+                        key={el.label}
+                        color={el.color}
+                        onClick={() => { tagHandler(el.label) }}
+                        className={selectedTag === el.label ? "checked" : ""}>
                         <div className='tagColor'></div>
                         <div className='label'>{el.label}</div>
                     </Tag>
