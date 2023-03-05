@@ -1,0 +1,68 @@
+@startuml todo service
+object TodoContainer 
+
+object Nav 
+object Sidebar {
+    state selectedTag: string
+    state isCheckedFilterTask: boolean
+    state isCheckedModalchangeToggle: boolean
+}
+object Main {
+    state isCheckedDone: boolean
+}
+
+object Tags {
+    tags: tags[]
+}
+object Tag {
+    tagColor: string
+    tagName: string
+}
+object FilterTask {
+    state checked: boolean
+}
+object ModeChangeToggle {
+    state checked: boolean
+}
+
+object PostContainer {
+    posts: string[]
+}
+object Post {
+    title: string 
+    description: string
+    selectedTag: string
+
+    state setIsCheckedDone: boolean
+}
+object EditModal
+
+object CenteredOveray
+object FormModal {
+    title: string 
+    description: string
+    selectedTag: string
+    handleFormSubmitted: function
+    state currentValue: string
+}
+
+TodoContainer *-- Nav
+TodoContainer *-- Sidebar
+TodoContainer *-- Main
+
+Sidebar *-- Tags
+Sidebar *-- FilterTask
+Sidebar *-- ModeChangeToggle
+Tags *-- Tag
+
+Main *-- PostContainer
+Nav *-- PostContainer
+PostContainer *-- Post
+Post *-- EditModal
+
+Nav *-- CenteredOveray
+EditModal *-- CenteredOveray
+CenteredOveray *-- FormModal
+FormModal *-- Tags
+
+@enduml
