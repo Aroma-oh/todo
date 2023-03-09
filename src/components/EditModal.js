@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { CreateModal } from "./CreateModal";
 
 export const ModalContainer = styled.div`
     z-index: 1;
@@ -46,13 +47,32 @@ export const ModalButton = styled.button`
     cursor: pointer;
 `;
 
-export const EditModal = () => {
+export const EditModal = ({
+    openEditModalHandler,
+    openModalHandler,
+    deletePostHandler,
+}) => {
     return (
         <>
-            <ModalContainer />
+            <ModalContainer onClick={openEditModalHandler} />
             <ModalView>
-                <ModalButton top>Edit</ModalButton>
-                <ModalButton>Delete</ModalButton>
+                <ModalButton
+                    top
+                    onClick={() => {
+                        openModalHandler();
+                        openEditModalHandler();
+                    }}
+                >
+                    Edit
+                </ModalButton>
+                <ModalButton
+                    onClick={() => {
+                        deletePostHandler();
+                        openEditModalHandler();
+                    }}
+                >
+                    Delete
+                </ModalButton>
             </ModalView>
         </>
     );
