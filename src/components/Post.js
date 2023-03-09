@@ -75,8 +75,16 @@ export const Post = ({
     data,
     setData,
     doneHandler,
+    openModalHandler,
 }) => {
     const [isOn, setIsOn] = useState(false);
+
+    const openEditModalHandler = () => {
+        setIsOn(!isOn);
+    };
+    const deletePostHandler = () => {
+        setData(data.filter((el) => el.id !== id));
+    };
 
     return (
         <PostContainer className="here">
@@ -89,7 +97,13 @@ export const Post = ({
                     ></i>
                 </div>
                 <div className="content">{content}</div>
-                {isOn ? <EditModal /> : null}
+                {isOn ? (
+                    <EditModal
+                        openEditModalHandler={openEditModalHandler}
+                        openModalHandler={openModalHandler}
+                        deletePostHandler={deletePostHandler}
+                    />
+                ) : null}
                 <PostFooter color={color}>
                     <div className="label" />
                     <div className="activeBox">
