@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
+import { EditModal } from "./EditModal";
 
 export const PostContainer = styled.div`
-    //position: absolute;
+    position: relative;
     /* width: 43%;
     max-width: 420px; */
     width: 400px;
@@ -75,18 +76,23 @@ export const Post = ({
     setData,
     doneHandler,
 }) => {
+    const [isOn, setIsOn] = useState(false);
+
     return (
         <PostContainer className="here">
             <div className="postBody" key={id}>
                 <div className="title">
                     <h3>{title}</h3>
-                    <i className="fa-solid fa-ellipsis"></i>
+                    <i
+                        onClick={() => setIsOn(true)}
+                        className="fa-solid fa-ellipsis"
+                    ></i>
                 </div>
                 <div className="content">{content}</div>
+                {isOn ? <EditModal /> : null}
                 <PostFooter color={color}>
                     <div className="label" />
                     <div className="activeBox">
-                        {/* onChange => dispatch redux로 data 변경 */}
                         <input
                             type="checkbox"
                             checked={done}
