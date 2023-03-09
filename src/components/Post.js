@@ -1,14 +1,13 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { postData } from "../data/postData";
-import { useState } from "react";
 
 export const PostContainer = styled.div`
-    position: absolute;
-    width: 43%;
-    left: 0px;
-    top: 0px;
-    margin: 12px;
+    //position: absolute;
+    /* width: 43%;
+    max-width: 420px; */
+    width: 400px;
+    height: auto;
+    margin: 18px;
     border-radius: 24px;
     background-color: ${(props) => props.theme.colors.postColor};
 
@@ -56,6 +55,8 @@ const PostFooter = styled.div`
     gap: 10px;
     width: 100%;
 
+    color: ${(props) => props.theme.colors.textColor};
+
     .label {
         border-radius: 100%;
         background-color: ${(props) => props.color};
@@ -64,50 +65,52 @@ const PostFooter = styled.div`
     }
 `;
 
-export const Post = () => {
-    const [data, setData] = useState([...postData]);
+export const Post = ({
+    id,
+    title,
+    content,
+    color,
+    done,
+    data,
+    setData,
+    doneHandler,
+}) => {
     return (
         <PostContainer className="here">
-            {data.map((el) => {
-                console.log(el);
-                return (
-                    <div className="postBody" key={el.id}>
-                        <div className="title">
-                            <h3>{el.title}</h3>
-                            <i className="fa-solid fa-ellipsis"></i>
-                        </div>
-                        <div className="content">{el.content}</div>
-                        <PostFooter color={el.tagColor}>
-                            {/* label을 스타일드 컴포넌트로 분리 */}
-                            <div className="label" />
-                            <div className="activeBox">
-                                {/* onChange => dispatch redux로 data 변경 */}
-                                <input
-                                    type="checkbox"
-                                    checked={el.done}
-                                    onClick={(e) => {
-                                        setData(
-                                            data.map((d) => {
-                                                if (d.id === el.id) {
-                                                    return {
-                                                        ...d,
-                                                        done: !d.done,
-                                                    };
-                                                }
-                                                return d;
-                                            })
-                                        );
-                                        // console.log(e.target.checked) 기존 데이터가 이미 boolean
-                                    }}
-                                />
-                                <label>
-                                    {el.done === true ? "Done" : "Active"}
-                                </label>
-                            </div>
-                        </PostFooter>
+            <div className="postBody" key={id}>
+                <div className="title">
+                    <h3>{title}</h3>
+                    <i className="fa-solid fa-ellipsis"></i>
+                </div>
+                <div className="content">{content}</div>
+                <PostFooter color={color}>
+                    <div className="label" />
+                    <div className="activeBox">
+                        {/* onChange => dispatch redux로 data 변경 */}
+                        <input
+                            type="checkbox"
+                            checked={done}
+                            onClick={() => {
+                                setData(
+                                    data.map((d) => {
+                                        if (d.id === id) {
+                                            return {
+                                                ...d,
+                                                done: !d.done,
+                                            };
+                                        }
+                                        doneHandler(d.id);
+                                        return d;
+                                    })
+                                );
+
+                                // console.log(e.target.checked) 기존 데이터가 이미 boolean
+                            }}
+                        />
+                        <label>{done === true ? "Done" : "Active"}</label>
                     </div>
-                );
-            })}
+                </PostFooter>
+            </div>
         </PostContainer>
     );
 };

@@ -1,35 +1,122 @@
-import './App.css';
-import { useState } from 'react';
-import styled, { css, ThemeProvider } from 'styled-components';
-import GlobalStyle from './style/GlobalStyle';
-import { light, dark, tagColors } from './style/theme';
-import { Header } from './components/Header';
-import { Nav } from './components/Nav';
-import { Main } from './components/Main';
+import "./App.css";
+import { useState } from "react";
+import styled, { css, ThemeProvider } from "styled-components";
+import GlobalStyle from "./style/GlobalStyle";
+import { light, dark, colorSet } from "./style/theme";
+import { Header } from "./components/Header";
+import { Nav } from "./components/Nav";
+import { Main } from "./components/Main";
+import { CreateModal } from "./components/CreateModal";
+import { postData } from "./data/postData";
 
 function App() {
-  const [themeMode, setThemeMode] = useState('light'); // 테마 모드 세팅
-  const theme = themeMode === 'light' ? light : dark; // 테마 환경에 맞는 테마 컬러 가져오기.
-  //const toggleTheme = () => setThemeMode(themeMode === 'light' ? 'dark' : 'light'); // 테마 변경하기 이벤트
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const toggleHandler = () => {
-    setIsDarkMode(!isDarkMode);
-    setThemeMode(themeMode === 'light' ? 'dark' : 'light');
-  }
-  console.log(isDarkMode)
-  return (
-    <>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        {/* <TodoContainer> */}
-        <Header />
-        <Nav isDarkMode={isDarkMode} toggleHandler={toggleHandler} />
-        <Main />
-        {/* </TodoContainer> */}
-      </ThemeProvider>
+    const [themeMode, setThemeMode] = useState("light");
+    const theme = themeMode === "light" ? light : dark;
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
-    </>
-  );
+    const [data, setData] = useState(postData);
+    const dataHandler = (newData) => {
+        setData([...data, newData]);
+        openModalHandler();
+    };
+    const dataResetHandler = () => {
+        setData(postData);
+        setSelectedTag("");
+    };
+
+    /* 
+    📌 문제
+    data state를 바꿔버려서 hide - non 사이 전환이 안됐음 
+        if (!isHide) {
+                setData(data);
+    📌 해결
+    핸들러 말고 post를 렌더시키는 곳에서 hide state를 참조하여 done을 렌더할지 말지를 결정함 
+    */
+    const [isHide, setIsHide] = useState(false);
+    // const hideHandler = (isHide, setIsHide) => {
+    //     if (!isHide) {
+    //         setData(data);
+    //     } else if (isHide) {
+    //         setData([...data].filter((el) => el.done === false));
+    //     }
+    /**
+     * 데이터를 없애는게 아니라
+     * 렌더 시점에 done이 숨
+     */
+    // if (isHide) {
+    //     setData(data);
+    // } else {
+    //     setData([...data].filter((el) => el.done === false));
+    // }
+    //     setIsHide(!isHide);
+    //     console.log(isHide);
+    // };
+
+    const doneHandler = (val, id) => {
+        if (val) {
+            setData(data.filter((data) => data.id !== id));
+        } else {
+            setData(postData);
+        }
+        console.log(data);
+    };
+
+    const toggleHandler = () => {
+        setIsDarkMode(!isDarkMode);
+        setThemeMode(themeMode === "light" ? "dark" : "light");
+    };
+
+    const [selectedTag, setSelectedTag] = useState("");
+    const tagHandler = (label) => {
+        setSelectedTag(label);
+        const filterTag = postData.filter((el) => el.tag === label);
+        setData(filterTag);
+    };
+
+    const [isOpen, setIsOpen] = useState(false);
+    const openModalHandler = () => {
+        setIsOpen(!isOpen);
+    };
+
+    return (
+        <>
+            <ThemeProvider theme={theme} colorSet={colorSet}>
+                <GlobalStyle />
+                {/* <TodoContainer> */}
+                <Header
+                    selectedTag={selectedTag}
+                    tagHandler={tagHandler}
+                    isOpen={isOpen}
+                    openModalHandler={openModalHandler}
+                    dataResetHandler={dataResetHandler}
+                />
+                <Nav
+                    isDarkMode={isDarkMode}
+                    toggleHandler={toggleHandler}
+                    selectedTag={selectedTag}
+                    tagHandler={tagHandler}
+                    //hideHandler={hideHandler}
+                    isHide={isHide}
+                    setIsHide={setIsHide}
+                />
+                <Main
+                    data={data}
+                    setData={setData}
+                    doneHandler={doneHandler}
+                    isHide={isHide}
+                />
+                <CreateModal
+                    isOpen={isOpen}
+                    openModalHandler={openModalHandler}
+                    selectedTag={selectedTag}
+                    tagHandler={tagHandler}
+                    dataHandler={dataHandler}
+                    data={data}
+                />
+                {/* </TodoContainer> */}
+            </ThemeProvider>
+        </>
+    );
 }
 
 export default App;

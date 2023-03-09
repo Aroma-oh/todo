@@ -1,21 +1,18 @@
-import React from 'react'
-import styled, { css } from 'styled-components';
-import { Toggle } from './Toggle.js'
-import { Tags } from './Tags.js'
+import React from "react";
+import styled, { css } from "styled-components";
+import { Toggle } from "./Toggle.js";
+import { Tags } from "./Tags.js";
+// import {}
 
 export const NavContainer = styled.nav`
-    position: absolute;
-    // position: sticky;
-    width: 16.25vw; 
-    min-width: 240px;
-    height: 100vh; 
+    position: fixed;
+    width: 260px;
+    height: 100vh;
     left: 0px;
-    top: calc(136px / 100vh * 100%);
+    top: 100px;
 
-    background-color: ${props => props.theme.colors.containerBgColor};
+    background-color: ${(props) => props.theme.colors.containerBgColor};
     > #filterTask {
-        // border: 1px solid;
-
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -26,23 +23,21 @@ export const NavContainer = styled.nav`
         width: 100%;
         height: 12%;
         left: 0;
-        top: 55%; 
+        top: 55%;
 
         font-size: 1.2rem;
-        color: ${props => props.theme.colors.textColor};
+        color: ${(props) => props.theme.colors.textColor};
     }
-`
-export const Nav = ({ isDarkMode, toggleHandler }) => {
+`;
+export const Nav = ({ isDarkMode, toggleHandler, selectedTag, tagHandler }) => {
     return (
         <NavContainer>
-            <Tags />
-            <div id='filterTask'>
-                <input
-                    type="checkbox"
-                ></input>
-                <label >Hide Done Tasks</label>
+            <Tags selectedTag={selectedTag} tagHandler={tagHandler} />
+            <div id="filterTask">
+                <input type="checkbox"></input>
+                <label>Hide Done Tasks</label>
             </div>
             <Toggle isDarkMode={isDarkMode} toggleHandler={toggleHandler} />
         </NavContainer>
-    )
-}
+    );
+};
