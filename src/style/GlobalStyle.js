@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 // 브라우저의 기본 css 스타일 제거 목적
 
 const GlobalStyle = createGlobalStyle`
@@ -16,7 +16,7 @@ body {
 
 	font-family: 'Noto Sans KR', sans-serif;
 	color: #4B4B4B;
-	background-color: #5D5FEF;
+	background-color: ${(props) => props.theme.colors.containerBgColor};;
 }
 
 div {
@@ -38,6 +38,6 @@ textarea:focus,
 select:focus {
 	outline: none;
 }
-`
+`;
 
-export default GlobalStyle; 
+export default GlobalStyle;

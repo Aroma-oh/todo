@@ -16,8 +16,9 @@ function App() {
 
     const [data, setData] = useState(postData);
     const dataHandler = (newData) => {
-        setData([...data, newData]);
+        postData.push(newData);
         openModalHandler();
+        console.log(data);
     };
     const dataResetHandler = () => {
         setData(postData);
@@ -104,6 +105,7 @@ function App() {
                     setData={setData}
                     doneHandler={doneHandler}
                     isHide={isHide}
+                    openModalHandler={openModalHandler}
                 />
                 <CreateModal
                     isOpen={isOpen}

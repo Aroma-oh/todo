@@ -1,8 +1,7 @@
-import React from 'react'
-import styled, { css } from 'styled-components';
+import React from "react";
+import styled, { css } from "styled-components";
 
 export const HeaderContainer = styled.header`
-    // border: 1px solid;
     background-color: white;
     width: 100vw;
     height: 100px;
@@ -11,16 +10,17 @@ export const HeaderContainer = styled.header`
     margin: 0;
     padding: 12px 8px;
 
-    position: sticky; // sticky인데 움직인드아ㅏㅏ
+    position: fixed;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 1;
 
-    background-color: ${props => props.theme.colors.containerBgColor};
+    background-color: ${(props) => props.theme.colors.containerBgColor};
     text-decoration: none;
 
     .title {
-        color: ${props => props.theme.colors.textColor};
+        color: ${(props) => props.theme.colors.textColor};
         font-weight: 700;
         font-size: 2.5rem;
         text-decoration: none;
@@ -30,8 +30,8 @@ export const HeaderContainer = styled.header`
 
     .add {
         position: absolute;
-        color: ${props => props.theme.colors.buttonTextColor};
-        background-color: ${props => props.theme.colors.buttonColor};
+        color: ${(props) => props.theme.colors.buttonTextColor};
+        background-color: ${(props) => props.theme.colors.buttonColor};
         border-radius: 100%;
         border: none;
         cursor: pointer;
@@ -45,16 +45,27 @@ export const HeaderContainer = styled.header`
         align-items: center;
         box-shadow: rgba(99, 99, 99, 0.3) 0px 2px 8px 0px;
     }
-`
+`;
 
-export const Header = () => {
+export const Header = ({ openModalHandler, isOpen, dataResetHandler }) => {
     return (
-        <HeaderContainer>
-            <h1 className='title'> todo </h1>
-            <button className='add'>+</button>
-        </HeaderContainer>
-    )
-}
+        <>
+            <HeaderContainer>
+                <h1 className="title" onClick={dataResetHandler}>
+                    todo
+                </h1>
+                <button
+                    className="add"
+                    onClick={() => {
+                        openModalHandler();
+                    }}
+                >
+                    +
+                </button>
+            </HeaderContainer>
+        </>
+    );
+};
 
 /* height: calc(136px / 982px * 100%); */
 /* ${props =>

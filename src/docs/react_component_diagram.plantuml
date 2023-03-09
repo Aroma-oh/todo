@@ -29,11 +29,11 @@ object PostContainer {
     posts: string[]
 }
 object Post {
+    id: number
     title: string 
-    description: string
-    selectedTag: string
-
-    state setIsCheckedDone: boolean
+    content: string
+    tag: string
+    done: boolean
 }
 object EditModal
 

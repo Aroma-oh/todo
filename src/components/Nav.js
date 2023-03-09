@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { Toggle } from "./Toggle.js";
 import { Tags } from "./Tags.js";
@@ -29,12 +29,22 @@ export const NavContainer = styled.nav`
         color: ${(props) => props.theme.colors.textColor};
     }
 `;
-export const Nav = ({ isDarkMode, toggleHandler, selectedTag, tagHandler }) => {
+export const Nav = ({
+    isDarkMode,
+    toggleHandler,
+    selectedTag,
+    tagHandler,
+    isHide,
+    setIsHide,
+}) => {
     return (
         <NavContainer>
             <Tags selectedTag={selectedTag} tagHandler={tagHandler} />
             <div id="filterTask">
-                <input type="checkbox"></input>
+                <input
+                    type="checkbox"
+                    onClick={() => setIsHide(!isHide)}
+                ></input>
                 <label>Hide Done Tasks</label>
             </div>
             <Toggle isDarkMode={isDarkMode} toggleHandler={toggleHandler} />
