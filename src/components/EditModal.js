@@ -48,6 +48,7 @@ export const ModalButton = styled.button`
 `;
 
 export const EditModal = ({
+    id,
     openEditModalHandler,
     openModalHandler,
     deletePostHandler,
@@ -59,7 +60,7 @@ export const EditModal = ({
                 <ModalButton
                     top
                     onClick={() => {
-                        openModalHandler();
+                        openModalHandler(id);
                         openEditModalHandler();
                     }}
                 >

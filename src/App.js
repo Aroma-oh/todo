@@ -108,6 +108,7 @@ function App() {
                     openModalHandler={openModalHandler}
                 />
                 <CreateModal
+                    type="create"
                     isOpen={isOpen}
                     openModalHandler={openModalHandler}
                     selectedTag={selectedTag}

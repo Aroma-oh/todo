@@ -99,6 +99,7 @@ export const Post = ({
                 <div className="content">{content}</div>
                 {isOn ? (
                     <EditModal
+                        id={id}
                         openEditModalHandler={openEditModalHandler}
                         openModalHandler={openModalHandler}
                         deletePostHandler={deletePostHandler}

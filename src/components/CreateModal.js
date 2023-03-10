@@ -5,8 +5,6 @@ import { tagData } from "../data/tagData";
 import { postData } from "../data/postData";
 
 export const ModalContainer = styled.div`
-    // border: 1px solid; /* 지울 예정 */
-
     z-index: 1000;
     background-color: rgba(45, 45, 45, 0.3);
 
@@ -82,21 +80,24 @@ export const ModalView = styled.div.attrs((props) => ({ role: "dialog" }))`
             font-weight: 500;
             font-size: 1.5rem;
             margin: 8px 12px;
+            /*border-radius: 12px;
+            border-color: "#F7F7F7";
+            border-radius: 16px; */
         }
 
         .content {
             color: ${(props) => props.theme.colors.textColor};
             font-weight: 400;
             font-size: 1.2rem;
+            /* border-color: "#F7F7F7";
+            border-radius: 16px; */
         }
 
         > textarea {
             background-color: ${(props) => props.theme.colors.mainBgColor};
             width: 100%;
             padding: 24px 24px;
-            // margin-bottom: 36px;
-            border: none;
-            border-radius: 16px;
+            border-color: #f7f7f7;
 
             overflow: hidden;
             resize: none;
@@ -128,10 +129,13 @@ export const ModalView = styled.div.attrs((props) => ({ role: "dialog" }))`
 `;
 
 export const CreateModal = ({
+    type,
     isOpen,
     openModalHandler,
     dataHandler,
     data,
+    editData,
+    updateDataHandler,
 }) => {
     const textRef = useRef();
     const handleResizeHeight = useCallback(() => {
@@ -168,12 +172,29 @@ export const CreateModal = ({
         done: false,
     };
 
+    const updateData = {
+        ...editData,
+        title,
+        content,
+        tag: selectedTag,
+        tagColor,
+    };
+
     const cleanModal = () => {
         setTitle("");
         setContent("");
         setSelectedTag("");
-        console.log(newData);
+        return null;
     };
+
+    useEffect(() => {
+        if (type === "create") return;
+        if (!editData) return;
+
+        setTitle(editData.title);
+        setContent(editData.content);
+        setSelectedTag(editData.tag);
+    }, [type, editData]);
 
     return (
         <>
@@ -187,12 +208,18 @@ export const CreateModal = ({
                             </button>
                             <button
                                 onClick={() => {
-                                    dataHandler(newData);
-                                    cleanModal();
+                                    {
+                                        if (type === "create") {
+                                            dataHandler(newData);
+                                            cleanModal();
+                                        } else {
+                                            updateDataHandler(updateData);
+                                            cleanModal();
+                                        }
+                                    }
                                 }}
                             >
-                                {" "}
-                                Add{" "}
+                                {type}
                             </button>
                         </div>
                         <div className="inputBox">

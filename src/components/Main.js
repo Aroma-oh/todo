@@ -1,8 +1,7 @@
-import React from "react";
-import styled, { css } from "styled-components";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { CreateModal } from "./CreateModal.js";
 import { Post } from "./Post.js";
-import { postData } from "../data/postData";
-import { useState } from "react";
 
 export const MainContainer = styled.div`
     display: flex;
@@ -41,30 +40,49 @@ export const Main = ({
     setData,
     doneHandler,
     isHide,
-    openModalHandler,
+    // openModalHandler,
 }) => {
+    const [targetId, setTargetId] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const openModalHandler = (id) => {
+        setTargetId(id);
+        setIsOpen(!isOpen);
+    };
+    const updateDataHandler = (updateData) => {
+        setData([...data, updateData]);
+        openModalHandler();
+        console.log("눌림");
+        console.log(updateData);
+    };
     return (
-        <MainContainer>
-            {data
-                .filter((el) => {
-                    if (isHide) return el.done === false;
-                    else return el;
-                })
-                .map((el) => {
-                    return (
-                        <Post
-                            id={el.id}
-                            title={el.title}
-                            content={el.content}
-                            color={el.tagColor}
-                            done={el.done}
-                            data={data}
-                            setData={setData}
-                            doneHandler={doneHandler}
-                            openModalHandler={openModalHandler}
-                        />
-                    );
-                })}
-        </MainContainer>
+        <>
+            <MainContainer>
+                {data
+                    .filter((el) => {
+                        if (isHide) return el.done === false;
+                        else return el;
+                    })
+                    .map((el) => {
+                        return (
+                            <Post
+                                {...el}
+                                data={data}
+                                setData={setData}
+                                doneHandler={doneHandler}
+                                openModalHandler={openModalHandler}
+                            />
+                        );
+                    })}
+            </MainContainer>
+
+            <CreateModal
+                type="edit"
+                isOpen={isOpen}
+                openModalHandler={openModalHandler}
+                data={data}
+                editData={data.find((v) => v.id === targetId)}
+                updateDataHandler={updateDataHandler}
+            />
+        </>
     );
 };
