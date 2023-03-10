@@ -49,7 +49,11 @@ export const Main = ({
         setIsOpen(!isOpen);
     };
     const updateDataHandler = (updateData) => {
-        setData([...data, updateData]);
+        setData([
+            ...data.slice(0, targetId - 1),
+            updateData,
+            ...data.slice(targetId),
+        ]);
         openModalHandler();
         console.log("눌림");
         console.log(updateData);
