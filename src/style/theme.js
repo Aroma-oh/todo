@@ -14,23 +14,7 @@ export const breakpoints = {
     lg: "992px",
     xl: "1200px",
 };
-// export const theme = {
-//     mainColor: '#0a4297',
-//     white: '#FFFFFF',
-//     beige: '#FFF9E7',
-//     gray: '#F7F7F7',
-//     darkGray: '#5F5D59',
-//     black: "#2D2D2D",
-//     pink: "#FFDEFA",
-//     green: "#C5E9D2",
-//     orange: "#FCD4BC",
-//     blue: "#D6E5FA",
-//     violet: "#E3E1FF",
-//     mobile: `(max-width: ${size.mobile})`,
-//     tablet: `(max-width: ${size.tablet})`,
-//     laptop: `(max-width: ${size.laptop})`,
-//     desktop: `(min-width: ${size.desktop})`,
-// }
+
 export const colorSet = {
     white: "#FFFFFF",
     beige: "#FFF9E7",
@@ -54,7 +38,6 @@ export const light = {
         toggleBorderColor: "#5F5D59",
         mainBgColor: "#F7F7F7",
         containerBgColor: "#FFFFFF",
-        //modalBgColor: rgba(45, 45, 45, 0.25),
     },
 };
 
@@ -68,6 +51,5 @@ export const dark = {
         toggleBorderColor: "#F7F7F7",
         mainBgColor: "#2D2D2D",
         containerBgColor: "#2D2D2D",
-        //modalBgColor: rgba(95, 93, 89, 0.25),
     },
 };
